@@ -9,6 +9,7 @@
         <button type="button" onclick="init()">Start</button>
         <div id="webcam-container"></div>
         <div id="label-container"></div>
+        <div id="check-container"></div>
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
         <script type="text/javascript">
@@ -19,6 +20,7 @@
             const URL = "./my_model/";
         
             let model, webcam, labelContainer, maxPredictions;
+            let checkContainer;
         
             // Load the image model and setup the webcam
             async function init() {
@@ -41,7 +43,10 @@
         
                 // append elements to the DOM
                 document.getElementById("webcam-container").appendChild(webcam.canvas);
+                
                 labelContainer = document.getElementById("label-container");
+                checkContainer = document.getElementById("check-container");
+
                 for (let i = 0; i < maxPredictions; i++) { // and class labels
                     labelContainer.appendChild(document.createElement("div"));
                 }
@@ -67,11 +72,11 @@
                     labelContainer.childNodes[0].innerHTML = "알 수 없음"
                 }
 
-                // for (let i = 0; i < maxPredictions; i++) {
-                //     const classPrediction =
-                //         prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-                //     labelContainer.childNodes[i].innerHTML = classPrediction;
-                // }
+                for (let i = 0; i < maxPredictions; i++) {
+                    const classPrediction =
+                        prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+                    checkContainer.childNodes[i].innerHTML = classPrediction;
+                }
             }
         </script>
     </body>
