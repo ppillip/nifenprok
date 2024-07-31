@@ -5,7 +5,7 @@
         <title>박승현의 Teachable Machine Image Model</title>
     </head>
     <body>
-        <div>나이프, 포크 판별 v0.2</div>
+        <div>나이프, 포크 판별 v0.4</div>
         <button type="button" onclick="init()">Start</button>
         <div id="webcam-container"></div>
         <div id="label-container"></div>
@@ -53,15 +53,20 @@
                 window.requestAnimationFrame(loop);
             }
         
+            var audio1 = new Audio('pork.wav');
+            var audio2 = new Audio('knife.wav');
             // run the webcam image through the image model
             async function predict() {
                 // predict can take in an image, video or canvas html element
                 const prediction = await model.predict(webcam.canvas);
                 if(prediction[0].probability.toFixed(2) >= 0.8){
                     labelContainer.childNodes[0].innerHTML = "포크가 화면에 나타났습니다."
+                    
+                    audio1.play();
                 }
                 else if(prediction[1].probability.toFixed(2) >= 0.8){
                     labelContainer.childNodes[0].innerHTML = "나이프가 화면에 나타났습니다."
+                    audio2.play();
                 }
                 else{
                     labelContainer.childNodes[0].innerHTML = "알 수 없음"
